@@ -1,18 +1,21 @@
 <template>
-    <input type="file" id="upload" multiple>
-    <input type="file" id="upload-sum" multiple>
+  <el-popconfirm
+    confirm-button-text="OK"
+    cancel-button-text="No, Thanks"
+    :icon="InfoFilled"
+    icon-color="red"
+    title="Are you sure to delete this?"
+  >
+    <template #reference>
+      <delete class="delete-ico" @click="deletePicture(element.id)"/>
+    </template>
+  </el-popconfirm>
 </template>
 
 <script>
-import {ref} from 'vue'
+
 export default {
     name: "Test",
-    setup(){
-        let currentPage = ref(Number(1));
-        return {
-            currentPage
-        }
-    }
 }
 </script>
 

@@ -1,14 +1,10 @@
 <template>
-	<el-affix position="top" :offset="20">
-		<el-button type="primary">Offset top 120px</el-button>
-	</el-affix>
-	
-	<el-row justify="center" v-for="picture in pictureGroup.pictures" :key="picture.id">
+	<el-row justify="center" v-for="picture in pictures" :key="picture.id">
 		<el-col :sm="24" :md="18" :lg="12" style="text-align: center">
 			<el-image 
 				:src="getPictureUrl(picture.id)"
 				fit="contain"
-				lazy="true"
+				:lazy="true"
 			> 
 			</el-image>
 		</el-col>
@@ -24,7 +20,7 @@ export default {
 	name: "PictureViewer1",
 	data(){
 		return {
-			pictureGroup: {}
+			pictures: []
 		}
 	}, 
 	created(){
@@ -43,8 +39,7 @@ export default {
 			
 			let vm = this
 			let fillData = function(response){
-				console.info("fetch picture group")
-				vm.pictureGroup = response.data
+				vm.pictures = response.data
 			}
 
 			//若未从prop传入数据则请求数据

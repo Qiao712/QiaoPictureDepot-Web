@@ -6,10 +6,10 @@
 					<el-image
 						:src="getFirstPictureUrl(pictureGroup)"
 						fit="contain"
-						lazy="true"
+						:lazy="true"
 					>
 					</el-image>
-					<p> {{pictureGroup.title}} <el-tag>{{pictureGroup.pictures.length}}</el-tag></p>
+					<p> {{pictureGroup.title}} <el-tag>{{pictureGroup.pictureCount}}</el-tag></p>
 				</router-link>
 			</el-col>
 		</el-row>
@@ -67,8 +67,8 @@ export default {
 
 		//获取首张图组首张图片的url
 		getFirstPictureUrl(pictureGroup){
-			if(pictureGroup.pictures.length > 0)
-				return "/api/picture/" + (pictureGroup.pictures[0].id)
+			if(pictureGroup.firstPicture != null)
+				return "/api/picture/" + (pictureGroup.firstPicture)
 			else
 				return "/api/picture/-1"
 		}

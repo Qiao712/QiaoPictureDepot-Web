@@ -6,7 +6,7 @@
 					<el-image
 						:src="require(`../assets/albums.jpg`)"
 						fit="contain"
-						lazy="true"
+						:lazy="true"
 					></el-image>
 					<p>{{album.albumName}}</p>
 				</router-link>
