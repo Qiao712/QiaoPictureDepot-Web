@@ -68,7 +68,7 @@ export default {
 		//获取首张图组首张图片的url
 		getFirstPictureUrl(pictureGroup){
 			if(pictureGroup.firstPicture != null)
-				return "/api/picture/" + (pictureGroup.firstPicture)
+				return ["/api/picture", pictureGroup.id, pictureGroup.firstPicture].join('/')
 			else
 				return "/api/picture/-1"
 		}

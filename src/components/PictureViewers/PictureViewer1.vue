@@ -20,6 +20,7 @@ export default {
 	name: "PictureViewer1",
 	data(){
 		return {
+			pictureGroupId: null,
 			pictures: []
 		}
 	}, 
@@ -35,7 +36,7 @@ export default {
 	},
 	methods:{
 		fetchData(){
-			let pictureGroupId = this.$route.params.pictureGroupId
+			this.pictureGroupId = this.$route.params.pictureGroupId
 			
 			let vm = this
 			let fillData = function(response){
@@ -43,11 +44,11 @@ export default {
 			}
 
 			//若未从prop传入数据则请求数据
-			axios.get("/api/pictures/" + pictureGroupId).then(fillData)
+			axios.get("/api/pictures/" + this.pictureGroupId).then(fillData)
 		},
 
-		getPictureUrl(id){
-			return "/api/picture/" + id
+		getPictureUrl(pictureId){
+			return ["/api/picture", this.pictureGroupId, pictureId].join('/')
 		}
 	}
 }
