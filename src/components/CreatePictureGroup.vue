@@ -1,0 +1,215 @@
+<template>
+	<el-row justify="center" >
+		<el-col :sm="24" :md="17">
+			<el-form :model="form" label-width="120px">
+				<el-form-item label="标题">
+					<el-input placeholder="请输入标题..." name="username" v-model="title"></el-input>
+				</el-form-item>	
+
+				<el-form-item label="上传图片">
+					<input type="file" @change="handleFileSelect" multiple>
+					<draggable 
+						v-model="items" 
+						group="items" 
+						@start="drag=true" 
+						@end="drag=false" 
+						item-key="id">
+						<template #item="{element}">
+							<div @dblclick="preview" style="position: relative;">
+								<!-- 删除按钮 -->
+								<el-popconfirm
+									confirm-button-text="确认"
+									cancel-button-text="取消"
+									:icon="InfoFilled"
+									icon-color="red"
+									title="是否删除?"
+									@confirm="deletePicture(element.id)"
+								>
+									<template #reference>
+										<el-button class="delete-button" size="small" :icon="deleteIco" circle></el-button>
+									</template>
+								</el-popconfirm>
+
+								<!-- 预览图片 -->
+								<el-image
+									class="small_img"
+									:src="getPictureUrl(element)"
+									fit="contain"
+								></el-image>
+							</div>
+						</template>
+					</draggable>
+				</el-form-item>
+
+				<el-form-item>
+					<el-button type="primary" @click="upload">完成创建</el-button>
+					<el-checkbox name="type" label="是否公开" style="margin-left: 50px"></el-checkbox>
+				</el-form-item>
+			</el-form>
+		</el-col>
+	</el-row>
+
+	<!-- 大图预览 -->
+	<el-dialog v-model="dialogVisible">
+		<el-image
+			class="big_img"
+			:src="dialogImageUrl"
+			fit="contain"
+		></el-image>
+	</el-dialog>
+</template>
+
+<script>
+import draggable from 'vuedraggable'
+import axios from 'axios'
+import {Delete} from '@element-plus/icons-vue'
+
+export default {
+    name: 'CreatePictureGroup',
+	components:{
+		draggable
+	},
+	data(){
+		return {
+			title: "",
+			pictureGroupId: null,
+			albumId: null,
+
+			//{id: 在列表中的唯一编号，用于实现拖动
+            // pictureId: 若不为null，则为已经上传到服务器端的图片的对象
+            // file: 若不为null，则为从本地文件选择的待上传图片}
+			items:[],
+			drag: false,
+            nextId : 0,
+
+			//大图预览
+			dialogVisible: false,
+			dialogImageUrl: "",
+
+			//将element plus的ico图标组件导出
+			deleteIco: Delete
+		}
+	},
+	created() {
+		// watch 路由的参数，以便再次获取数据
+		this.$watch(
+			() => this.$route.params,
+			() => {
+				this.fetchData()
+			},
+			{ immediate: true }
+		)
+	},
+	methods:{
+		fetchData(){
+            this.albumId = this.$route.params.albumId
+		},
+
+		//选择图片
+        handleFileSelect(event){
+            //收集选择的文件
+            let files = event.target.files
+            for(let file of files){
+                this.nextId++
+                this.items.push({id: this.nextId, pictureId: null, file: file})
+            }
+        },
+
+		//获取item代表的图片的url
+        getPictureUrl(item){
+            if(item.pictureId != null){
+                return ["/api/picture/", this.pictureGroupId, item.pictureId].join("/")
+            }else if(item.file != null){
+                return window.URL.createObjectURL(item.file)
+            }
+        },
+
+		upload(){
+			this.createPictureGroup()
+		},
+
+		//创建图组
+		createPictureGroup(){
+			//创建图组
+			let pictureGroup = {album: this.albumId, title: this.title}
+			let vm = this
+			axios.post("/api/picture-group", pictureGroup).then(function(response){
+				//获取新建图组的id
+				vm.pictureGroupId = Number(response.data)
+				vm.uploadPictures()
+			})
+		},
+
+		//上传图片(完成后执行上传顺序)
+		uploadPictures(){
+			//收集并上传选择的图片
+			let formData = new FormData()
+			for(let item of this.items){
+				if(item.file != null) formData.append("pictures", item.file)
+			}
+
+			if(formData.get("pictures") != null){
+				let vm = this
+				let fillData = function(response){
+					//将返回的pictureId存入items,并上传顺序
+					let pictures = response.data
+					let i = 0
+					for(let item of vm.items){
+						if(item.pictureId == null){
+							item.pictureId = pictures[i++].id
+						}
+					}
+
+					//上传图片顺序
+					vm.uploadSequences();
+				}
+
+				axios.post("/api/pictures/" + this.pictureGroupId, formData).then(fillData)
+			}else{
+				//上传图片顺序
+				this.uploadSequences();
+			}
+
+		},
+
+		//上传图片顺序
+		uploadSequences(){
+			let sequences = []
+			for(let item of this.items){
+				sequences.push(item.pictureId)
+			}
+			
+			axios.post("/api/picture-sequence/" + this.pictureGroupId, sequences)
+		},
+
+		//删除一张图片
+		deletePicture(id){
+			let index = this.items.findIndex((item)=>(item.id == id))
+			this.items.splice(index, 1)[0]
+		},
+
+		//预览
+		preview(event){
+			let url = this.dialogImageUrl = event.target.getAttribute("src")
+			this.dialogImageUrl = url
+			this.dialogVisible = true
+		}
+	}
+}
+</script>
+
+<style>
+.small_img{
+	height: 150px;
+	width: 150px;
+	background-color: aliceblue;
+	border: 2px solid var(--el-border-color-base);
+}
+.delete-button{
+	z-index: 999;
+	margin-right: 8px;
+	position: absolute;
+	right: 0px;
+	bottom: 15px;
+}
+</style>
