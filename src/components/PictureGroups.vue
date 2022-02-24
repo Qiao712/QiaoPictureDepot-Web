@@ -61,7 +61,7 @@ export default {
 		},
 
 		handlePageChange(pageNo){
-			var url = ["/api/album", this.albumId, pageNo].join('/')
+			var url = ["/album", this.albumId, pageNo].join('/')
 			this.$router.push(url)
 		},
 
@@ -70,7 +70,7 @@ export default {
 			if(pictureGroup.firstPicture != null)
 				return ["/api/picture", pictureGroup.id, pictureGroup.firstPicture].join('/')
 			else
-				return "/api/picture/-1"
+				return ""
 		}
 	}
 }
