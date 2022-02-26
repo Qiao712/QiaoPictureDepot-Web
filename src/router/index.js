@@ -15,7 +15,7 @@ let routes = [
     { path: '/user', component: UserSpace},
     
     { name: 'modify', path: '/modify/:pictureGroupId', component: ModifyPictureGroup},
-    { name: 'create', path: '/album/:albumId/create', component: CreatePictureGroup},
+    { name: 'create', path: '/add-picture-group/:albumId', component: CreatePictureGroup},
     { name: 'albums', path: '/albums/:pageNo', component: Albums},
     { name: 'album', path: '/album/:albumId/:pageNo', component: PictureGroups},
     { name: 'pictures', path: '/pictures/:pictureGroupId', component: PictureViewer1}

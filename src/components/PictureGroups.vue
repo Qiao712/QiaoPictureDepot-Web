@@ -1,5 +1,9 @@
 <template>
 	<div style="margin: 10px">
+		<el-row justify="start">
+			<el-button @click="createPictureGroup">新建</el-button>
+		</el-row>
+
 		<el-row :gutter="5">
 			<el-col v-for="pictureGroup in pictureGroups" :key="pictureGroup.id" :span="6" style="text-align: center">
 				<router-link :to="{name: 'pictures', params: {pictureGroupId: pictureGroup.id}}">	<!--转到展示该图组的页面-->
@@ -71,6 +75,10 @@ export default {
 				return ["/api/picture", pictureGroup.id, pictureGroup.firstPicture].join('/')
 			else
 				return ""
+		},
+
+		createPictureGroup(){
+			this.$router.push({name: "create", params: {albumId: this.albumId}})
 		}
 	}
 }
