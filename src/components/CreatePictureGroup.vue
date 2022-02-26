@@ -1,7 +1,7 @@
 <template>
 	<el-row justify="center" >
 		<el-col :sm="24" :md="17">
-			<el-form :model="form" label-width="120px">
+			<el-form label-width="120px">
 				<el-form-item label="标题">
 					<el-input placeholder="请输入标题..." name="username" v-model="title"></el-input>
 				</el-form-item>	
@@ -16,7 +16,6 @@
 
 				<el-form-item>
 					<el-button type="primary" @click="upload">完成创建</el-button>
-					<el-checkbox name="type" label="是否公开" style="margin-left: 50px"></el-checkbox>
 				</el-form-item>
 			</el-form>
 		</el-col>
@@ -50,7 +49,7 @@ export default {
 	},
 	methods:{
 		fetchData(){
-            this.albumId = this.$route.params.albumId
+            this.albumId = Number(this.$route.params.albumId)
 		},
 		upload(){
 			//通知pictureGroupUploader上传

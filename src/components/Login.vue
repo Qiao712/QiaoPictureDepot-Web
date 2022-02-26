@@ -40,7 +40,7 @@ export default {
 	},
 	methods:{
 		login(){
-			axios.post("/api/login",this.authInfo).then(()=>(this.$router.push("/user")))
+			axios.post("/api/login",this.authInfo).then(()=>(this.$router.back()))
 		}
 	}
 }

@@ -17,7 +17,7 @@
 import axios from 'axios'
 
 export default {
-	name: "PictureViewer1",
+	name: "PictureGroup",
 	data(){
 		return {
 			pictureGroupId: null,
@@ -44,11 +44,11 @@ export default {
 			}
 
 			//若未从prop传入数据则请求数据
-			axios.get("/api/pictures/" + this.pictureGroupId).then(fillData)
+			axios.get(["/api/picture-groups/", this.pictureGroupId, "pictures"].join("/")).then(fillData)
 		},
 
 		getPictureUrl(pictureId){
-			return ["/api/picture", this.pictureGroupId, pictureId].join('/')
+			return ["/api/picture-groups", this.pictureGroupId, "pictures", pictureId].join('/')
 		}
 	}
 }

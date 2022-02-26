@@ -5,8 +5,8 @@ import UserSpace from '../components/UserSpace.vue'
 import ModifyPictureGroup from '../components/ModifyPictureGroup.vue'
 import CreatePictureGroup from '../components/CreatePictureGroup.vue'
 import Albums from '../components/Albums.vue'
-import PictureGroups from '../components/PictureGroups.vue'
-import PictureViewer1 from '../components/PictureViewers/PictureViewer1.vue'
+import Album from '../components/Album.vue'
+import PictureGroup from '../components/PictureGroup.vue'
 
 
 let routes = [
@@ -14,11 +14,12 @@ let routes = [
     { path: '/register', component: Register},
     { path: '/user', component: UserSpace},
     
-    { name: 'modify', path: '/modify/:pictureGroupId', component: ModifyPictureGroup},
-    { name: 'create', path: '/add-picture-group/:albumId', component: CreatePictureGroup},
-    { name: 'albums', path: '/albums/:pageNo', component: Albums},
-    { name: 'album', path: '/album/:albumId/:pageNo', component: PictureGroups},
-    { name: 'pictures', path: '/pictures/:pictureGroupId', component: PictureViewer1}
+    { name: 'albums', path: '/albums', component: Albums},
+    { name: 'album', path: '/albums/:albumId', component: Album},
+
+    { name: 'modifyPictureGroup', path: '/modify/:pictureGroupId', component: ModifyPictureGroup},
+    { name: 'createPictureGroup', path: '/album/:albumId/create', component: CreatePictureGroup},
+    { name: 'pictureGroup', path: '/picture-groups/:pictureGroupId', component: PictureGroup}
 ];
 
 let router = createRouter({

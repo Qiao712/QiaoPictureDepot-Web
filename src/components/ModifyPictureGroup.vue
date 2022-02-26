@@ -1,7 +1,7 @@
 <template>
 	<el-row justify="center" >
 		<el-col :sm="24" :md="17">
-			<el-form :model="form" label-width="120px">
+			<el-form label-width="120px">
 				<el-form-item label="标题">
 					<el-input placeholder="请输入标题..." name="username" v-model="title"></el-input>
 				</el-form-item>	

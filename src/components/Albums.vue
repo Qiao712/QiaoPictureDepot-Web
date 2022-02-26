@@ -34,7 +34,7 @@ export default {
 	created() {
 		// watch 路由的参数，以便再次获取数据
 		this.$watch(
-			() => this.$route.params,
+			() => this.$route.query,
 			() => {
 				this.fetchData()
 			},
@@ -45,17 +45,18 @@ export default {
 		//拉取album信息
 		fetchData(){
 			//注意类型：el-nagination的current-page必须接收number
-			this.pageNo = Number(this.$route.params.pageNo)
+			this.pageNo = Number(this.$route.query.pageNo)
+			
 			let vm = this
 			let fillData = function(response){
 				vm.pageCount = response.data.pageCount
 				vm.albums = response.data.itemsOfCurrentPage
 			}
-			axios.get("/api/albums/" + this.pageNo).then(fillData)
+			axios.get("/api/albums/", {params: {pageNo: this.pageNo, pageSize: 12}}).then(fillData)
 		},
 
 		handlePageChange(pageNo){
-			this.$router.push("/albums/" + pageNo)
+			this.$router.push({ name: 'albums', query: { pageNo: pageNo } })
 		}
 	}
 }

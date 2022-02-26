@@ -18,7 +18,9 @@
 					@confirm="deletePicture(element.id)"
 				>
 					<template #reference>
-						<el-button class="delete-button" size="small" :icon="deleteIco" circle></el-button>
+						<el-button class="delete-button" size="small" :icon="Delete" circle>
+							<delete style="width: 100%"></delete>
+						</el-button>
 					</template>
 				</el-popconfirm>
 
@@ -56,6 +58,7 @@ export default {
     },
 	components: {
 		draggable,
+		Delete
 	},
 	data(){
 		return{
@@ -70,8 +73,6 @@ export default {
 			//大图预览
 			dialogVisible: false,
 			dialogImageUrl: "",
-			//将element plus的ico图标组件导出
-			deleteIco: Delete
 		}
 	},
     created() {
