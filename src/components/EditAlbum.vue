@@ -11,7 +11,7 @@
                 </el-form-item>
 
 				<el-form-item>
-					<el-button type="primary" @click="submit">完成创建</el-button>
+					<el-button type="primary" @click="submit">完成</el-button>
 				</el-form-item>
 			</el-form>
 		</el-col>
@@ -26,18 +26,42 @@ export default {
     name: "CreateAlbum",
     data(){
         return{
+            albumId: null,
             albumName: "",
             isPublic: false
         }
     },
+    created() {
+		// watch 路由的参数，以便再次获取数据
+		this.$watch(
+			() => this.$route.params,
+			() => {
+				this.fetchData()
+			},
+			{ immediate: true }
+		)
+	},
     methods:{
+        fetchData(){
+            this.albumId = Number(this.$route.params.albumId)
+			if(!isNaN(this.albumId)){
+				let vm = this
+				let fillData = function(response){
+					vm.albumName = response.data.albumName;
+                    vm.isPublic = response.data.isPublic;
+				}
+				axios.get("/api/albums/" + this.albumId).then(fillData)
+			}
+		},
+
         submit(){
             let album = {
+                id : this.albumId,
                 albumName : this.albumName,
                 isPublic : this.isPublic
             }
 
-            axios.post("/api/albums", album).then(this.message)
+            axios.put("/api/albums", album).then(this.message)
         },
 
         //提示信息

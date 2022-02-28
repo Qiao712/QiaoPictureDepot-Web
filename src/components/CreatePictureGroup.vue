@@ -1,9 +1,9 @@
 <template>
-	<el-row justify="center" >
+	<el-row justify="center" style="margin-top: 10px">
 		<el-col :sm="24" :md="17">
 			<el-form label-width="120px">
 				<el-form-item label="标题">
-					<el-input placeholder="请输入标题..." name="username" v-model="title"></el-input>
+					<el-input placeholder="请输入标题..." name="title" v-model="title"></el-input>
 				</el-form-item>	
 
 				<el-form-item label="上传图片">

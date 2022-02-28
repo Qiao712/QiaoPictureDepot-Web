@@ -12,7 +12,6 @@
 				<el-popconfirm
 					confirm-button-text="确认"
 					cancel-button-text="取消"
-					:icon="InfoFilled"
 					icon-color="red"
 					title="是否删除?"
 					@confirm="deletePicture(element.id)"
@@ -48,12 +47,15 @@
 import draggable from 'vuedraggable'
 import axios from 'axios'
 import {Delete} from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+
 export default {
 	name: "PictureGroupUploader",
     props:{
         pictureGroupId : Number,
         title: String,
 		albumId: Number,
+		//指定行为是 修改/新建
 		isUpdate: Boolean
     },
 	components: {
@@ -162,11 +164,22 @@ export default {
 			formData.set("picture-group-change", JSON.stringify(pictureGroupChangeRequest))
 
 			if(this.isUpdate){
-				axios.put("/api/picture-groups", formData)
+				axios.put("/api/picture-groups", formData).then(this.message)
 			}else{
-				axios.post("/api/picture-groups", formData)
+				axios.post("/api/picture-groups", formData).then(this.message)
 			}
 		},
+
+		//提示信息
+        message(response){
+            ElMessage({
+                showClose: true,
+                message: response.status == 200 ? '操作成功' : '操作失败',
+                type: response.status == 200 ? 'success' : 'error',
+                duration: 2000
+            })
+            this.$router.back()
+        }
     }
 }
 </script>

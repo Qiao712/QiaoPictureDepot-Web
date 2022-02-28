@@ -29,7 +29,7 @@ import axios from 'axios'
 import PictureGroupUploader from './PictureGroupUploader.vue'
 
 export default {
-    name: 'ModifyPictureGroup',
+    name: 'EditPictureGroup',
 	components:{
 		PictureGroupUploader
 	},
