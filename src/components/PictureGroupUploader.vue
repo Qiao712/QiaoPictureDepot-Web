@@ -1,37 +1,41 @@
 <template>
-	<input type="file" @change="handleFileSelect" multiple>
-	<draggable 
-		v-model="items" 
-		group="items" 
-		@start="drag=true" 
-		@end="drag=false" 
-		item-key="id">
-		<template #item="{element}">
-			<div @dblclick="preview" style="position: relative;">
-				<!-- 删除按钮 -->
-				<el-popconfirm
-					confirm-button-text="确认"
-					cancel-button-text="取消"
-					icon-color="red"
-					title="是否删除?"
-					@confirm="deletePicture(element.id)"
-				>
-					<template #reference>
-						<el-button class="delete-button" size="small" :icon="Delete" circle>
-							<delete style="width: 100%"></delete>
-						</el-button>
-					</template>
-				</el-popconfirm>
+	<div>
+		<el-button style="margin-bottom: 20px" @click="clickFileInput">选择文件</el-button>
+		<input class="file-input" hidden type="file" @change="handleFileSelect" multiple>
 
-				<!-- 预览图片 -->
-				<el-image
-					class="small_img"
-					:src="getPictureUrl(element)"
-					fit="contain"
-				></el-image>
-			</div>
-		</template>
-	</draggable>
+		<draggable 
+			v-model="items" 
+			group="items" 
+			@start="drag=true" 
+			@end="drag=false" 
+			item-key="id">
+			<template #item="{element}">
+				<div @dblclick="preview" style="position: relative;">
+					<!-- 删除按钮 -->
+					<el-popconfirm
+						confirm-button-text="确认"
+						cancel-button-text="取消"
+						icon-color="red"
+						title="是否删除?"
+						@confirm="deletePicture(element.id)"
+					>
+						<template #reference>
+							<el-button class="delete-button" size="small" :icon="Delete" circle>
+								<delete style="width: 100%"></delete>
+							</el-button>
+						</template>
+					</el-popconfirm>
+
+					<!-- 预览图片 -->
+					<el-image
+						class="small_img"
+						:src="getPictureUrl(element)"
+						fit="contain"
+					></el-image>
+				</div>
+			</template>
+		</draggable>
+	</div>
 	
 	<!-- 大图预览 -->
 	<el-dialog v-model="dialogVisible">
@@ -179,7 +183,12 @@ export default {
                 duration: 2000
             })
             this.$router.back()
-        }
+        },
+
+		//点击file input
+		clickFileInput(){
+			document.querySelector(".file-input").click()
+		}
     }
 }
 </script>

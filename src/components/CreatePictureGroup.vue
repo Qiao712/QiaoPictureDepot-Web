@@ -59,7 +59,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .small_img{
 	height: 150px;
 	width: 150px;
