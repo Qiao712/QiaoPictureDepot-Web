@@ -48,7 +48,7 @@ export default {
 				let vm = this
 				let fillData = function(response){
 					vm.albumName = response.data.albumName;
-                    vm.isPublic = response.data.isPublic;
+                    vm.isPublic = response.data.public;
 				}
 				axios.get("/api/albums/" + this.albumId).then(fillData)
 			}
@@ -58,7 +58,7 @@ export default {
             let album = {
                 id : this.albumId,
                 albumName : this.albumName,
-                isPublic : this.isPublic
+                public : this.isPublic          //isPublic -> public
             }
 
             axios.put("/api/albums", album).then(this.message)

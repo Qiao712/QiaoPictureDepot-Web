@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory} from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import UserSpace from '../components/UserSpace.vue'
@@ -12,6 +12,8 @@ import PictureGroup from '../components/PictureGroup.vue'
 
 
 let routes = [
+    { path: '/', redirect: '/albums'},
+
     { path: '/login', component: Login},
     { path: '/register', component: Register},
     { path: '/user', component: UserSpace},
@@ -27,7 +29,7 @@ let routes = [
 ];
 
 let router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes
 });
 export default router;
