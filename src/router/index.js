@@ -9,6 +9,7 @@ import Album from '../components/Album.vue'
 import EditAlbum from '../components/EditAlbum.vue'
 import CreateAlbum from '../components/CreateAlbum.vue'
 import PictureGroup from '../components/PictureGroup.vue'
+import FriendList from '../components/FriendList.vue'
 
 
 let routes = [
@@ -25,7 +26,9 @@ let routes = [
 
     { name: 'editPictureGroup', path: '/picture-groups/:pictureGroupId/edit', component: EditPictureGroup},
     { name: 'createPictureGroup', path: '/album/:albumId/create', component: CreatePictureGroup},
-    { name: 'pictureGroup', path: '/picture-groups/:pictureGroupId', component: PictureGroup}
+    { name: 'pictureGroup', path: '/picture-groups/:pictureGroupId', component: PictureGroup},
+
+    { name: 'friends', path: '/friends', component: FriendList},
 ];
 
 let router = createRouter({
