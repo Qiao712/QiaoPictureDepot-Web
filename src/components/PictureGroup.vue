@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import pictureApi from "@/api/PictureApi"
 
 export default {
   name: "PictureGroup",
@@ -36,15 +36,14 @@ export default {
   },
   methods:{
     fetchData(){
-      this.pictureGroupId = this.$route.params.pictureGroupId
-      
-      let vm = this
-      let fillData = function(response){
-        vm.pictures = response.data
-      }
+      this.pictureGroupId = Number(this.$route.params.pictureGroupId)
+      if(isNaN(this.pictureGroupId)) return
 
-      //若未从prop传入数据则请求数据
-      axios.get(["/api/picture-groups/", this.pictureGroupId, "pictures"].join("/")).then(fillData)
+      pictureApi.getPicturesInfoByGroup(this.pictureGroupId).then(
+        response=>{
+          this.pictures = response.data
+        }
+      )
     },
 
     getPictureUrl(pictureId){

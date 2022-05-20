@@ -46,9 +46,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import pictureApi from "@/api/PictureApi"
 import {Delete, Edit} from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 
 export default {
   name: "Album",
@@ -75,21 +74,21 @@ export default {
     )
   },
   methods:{
-    //拉取album信息
+    //拉取picture groups
     fetchData(){
       //注意类型：el-nagination的current-page必须接收number
       this.pageNo = Number(this.$route.query.pageNo)
       this.albumId = Number(this.$route.params.albumId)
       this.pageNo = isNaN(this.pageNo) ? 1 : this.pageNo
+      if(isNaN(this.albumId)) return
 
-      let vm = this
-      let fillData = function(response){
-        vm.total = response.data.total
-        vm.pictureGroups = response.data.list
-      }
-      
-      var url = ["/api/albums", this.albumId, "picture-groups"].join('/')
-      axios.get(url, {params: {pageNo: this.pageNo, pageSize: 12}}).then(fillData)
+
+      pictureApi.getPictureGroups(this.albumId, this.pageNo, this.pageSize).then(
+        (response)=>{
+          this.total = response.data.total
+          this.pictureGroups = response.data.list
+        }
+      )
     },
 
     handlePageChange(pageNo){
@@ -98,8 +97,8 @@ export default {
 
     //获取首张图组首张图片的url
     getFirstPictureUrl(pictureGroup){
-      if(pictureGroup.firstPictureId != null)
-        return ["/api/picture-groups", pictureGroup.id, "pictures" ,pictureGroup.firstPictureId].join('/')
+      if(pictureGroup.firstPictureRefId != null)
+        return ["/api/picture-groups", pictureGroup.id, "pictures" ,pictureGroup.firstPictureRefId].join('/')
       else
         return ""
     },
@@ -117,21 +116,12 @@ export default {
     },
 
     deletePictureGroup(pictureGroupId){
-      axios.delete("/api/picture-groups/" + pictureGroupId).then(this.message)
-    },
-
-    //提示信息
-        message(response){
-            ElMessage({
-                showClose: true,
-                message: response.status == 200 ? '操作成功' : '操作失败',
-                type: response.status == 200 ? 'success' : 'error',
-                duration: 2000
-            })
-      
-      //重新拉取数据
-      this.fetchData()
+      pictureApi.deletePictureGroup(pictureGroupId).then(
+        ()=>{
+          this.fetchData()
         }
+      )
+    }
   }
 }
 </script>

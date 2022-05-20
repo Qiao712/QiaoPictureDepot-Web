@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import userApi from "@/api/UserApi"
 
 export default {
   name: 'Login',
@@ -43,12 +43,11 @@ export default {
       form.append("username", this.username)
       form.append("password", this.password)
       form.append("remember-me", this.rememberMe)
-      let vm = this
-      axios.post("/api/login", form).then(function(){
-        vm.$router.push({name: "albums", query: {pageNo: 1}})
-      }).catch(function(){
-        vm.msg = "登录失败"
-      })
+      userApi.login(form).then(
+        ()=>{
+          this.$router.push({name: "albums", query: {pageNo: 1}})
+        }
+      )
     }
   }
 }

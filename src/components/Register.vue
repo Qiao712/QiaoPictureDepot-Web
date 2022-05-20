@@ -27,8 +27,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import userApi from "@/api/UserApi"
 
 export default {
   name: 'Register',
@@ -37,30 +36,18 @@ export default {
       msg : "",
       username : "",
       password : "",
-            checkPassword: "",
-            invitationCode: ""
+      checkPassword: "",
+      invitationCode: ""
     }
   },
   methods:{
     register(){
       let formData = new FormData();
-            formData.set("username", this.username)
-            formData.set("password", this.password)
-            formData.set("invitationCode", this.invitationCode)
-            axios.post("/api/register", formData).then(this.message).catch(this.message)
+      formData.set("username", this.username)
+      formData.set("password", this.password)
+      formData.set("invitationCode", this.invitationCode)
+      userApi.register(formData)
     },
-
-        //提示信息
-        message(response){
-            ElMessage({
-                showClose: true,
-                message: response.status == 200 ? '操作成功' : '操作失败',
-                type: response.status == 200 ? 'success' : 'error',
-                duration: 2000
-            })
-
-            if(response.status == 200) this.$router.push("/login")
-        },
   }
 }
 </script>

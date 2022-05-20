@@ -44,12 +44,12 @@
 </template>
 
 <script>
-import axios from 'axios'
 import {Delete, Edit} from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import albumApi from '../api/AlbumApi'
+import {successMessage} from '../utils/Message'
 
 export default {
-    name: 'Albums',
+  name: 'Albums',
   components:{
     Delete, Edit
   },
@@ -76,13 +76,12 @@ export default {
     fetchData(){
       //注意类型：el-nagination的current-page必须接收number
       this.pageNo = Number(this.$route.query.pageNo)
-      
-      let vm = this
-      let fillData = function(response){
-        vm.albums = response.data.list
-        vm.total = response.data.total
-      }
-      axios.get("/api/albums/", {params: {pageNo: this.pageNo, pageSize: 12}}).then(fillData)
+      if(isNaN(this.pageNo)) return
+
+      albumApi.getAlbums(this.pageNo, this.pageSize).then(response=>{
+        this.albums = response.data.list
+        this.total = response.data.total
+      })
     },
 
     handlePageChange(pageNo){
@@ -90,25 +89,15 @@ export default {
     },
 
     deleteAlbum(albumId){
-      axios.delete("/api/albums/" + albumId).then(this.message)
+      albumApi.deleteAlbum(albumId).then(()=>{
+        this.fetchData()
+        successMessage("删除成功")
+      })
     },
 
     editAlbum(albumId){
       this.$router.push({name: "editAlbum", params: {albumId: albumId}})
-    },
-
-    //提示信息
-        message(response){
-            ElMessage({
-                showClose: true,
-                message: response.status == 200 ? '操作成功' : '操作失败',
-                type: response.status == 200 ? 'success' : 'error',
-                duration: 2000
-            })
-      
-      //重新拉取数据
-      this.fetchData()
-        }
+    }
   }
 }
 </script>

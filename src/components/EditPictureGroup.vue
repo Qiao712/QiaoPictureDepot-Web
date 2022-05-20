@@ -1,17 +1,17 @@
 <template>
-  <el-row justify="center" >
+  <el-row justify="center">
     <el-col :sm="24" :md="17">
       <el-form label-width="120px">
         <el-form-item label="标题">
           <el-input placeholder="请输入标题..." name="username" v-model="title"></el-input>
-        </el-form-item>	
+        </el-form-item>
 
         <el-form-item label="上传图片">
           <picture-group-uploader
-            :pictureGroupId="pictureGroupId"
-            :albumId="albumId"
-            :title="title"
-            :isUpdate="true">
+              :pictureGroupId="pictureGroupId"
+              :albumId="albumId"
+              :title="title"
+              :isUpdate="true">
           </picture-group-uploader>
         </el-form-item>
 
@@ -25,15 +25,15 @@
 </template>
 
 <script>
-import axios from 'axios'
+import pictureApi from '@/api/PictureApi'
 import PictureGroupUploader from './PictureGroupUploader.vue'
 
 export default {
-    name: 'EditPictureGroup',
-  components:{
+  name: 'EditPictureGroup',
+  components: {
     PictureGroupUploader
   },
-  data(){
+  data() {
     return {
       pictureGroupId: null,
       title: "",
@@ -47,24 +47,24 @@ export default {
       () => {
         this.fetchData()
       },
-      { immediate: true }
+      {immediate: true}
     )
   },
-  methods:{
-    fetchData(){
-            this.pictureGroupId = Number(this.$route.params.pictureGroupId)
-      if(this.pictureGroupId != null){
-        let vm = this
-        let fillData = function(response){
+  methods: {
+    fetchData() {
+      this.pictureGroupId = Number(this.$route.params.pictureGroupId)
+      if(isNaN(this.pictureGroupId)) return
+
+      pictureApi.getPictureGroup(this.pictureGroupId).then(
+        response=>{
           let pictureGroup = response.data
-          vm.pictureGroupId = pictureGroup.id
-          vm.albumId = pictureGroup.albumId
-          vm.title = pictureGroup.title
+          this.albumId = pictureGroup.albumId
+          this.pictureGroupId = pictureGroup.id
+          this.title = pictureGroup.title
         }
-        axios.get("/api/picture-groups/" + this.pictureGroupId).then(fillData)
-      }
+      )
     },
-    upload(){
+    upload() {
       //通知pictureGroupUploader上传
       this.$eventBus.emit('upload')
     }
@@ -73,13 +73,14 @@ export default {
 </script>
 
 <style>
-.small_img{
+.small_img {
   height: 150px;
   width: 150px;
   background-color: aliceblue;
   border: 2px solid var(--el-border-color-base);
 }
-.delete-button{
+
+.delete-button {
   z-index: 999;
   margin-right: 8px;
   position: absolute;
