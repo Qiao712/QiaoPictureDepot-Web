@@ -48,6 +48,7 @@
 <script>
 import pictureApi from "@/api/PictureApi"
 import {Delete, Edit} from '@element-plus/icons-vue'
+import {showSuccessMessage} from "@/utils/Message"
 
 export default {
   name: "Album",
@@ -118,6 +119,7 @@ export default {
     deletePictureGroup(pictureGroupId){
       pictureApi.deletePictureGroup(pictureGroupId).then(
         ()=>{
+          showSuccessMessage()
           this.fetchData()
         }
       )

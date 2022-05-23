@@ -10,14 +10,26 @@
     </el-col>
   </el-row>
 
+  <!-- 评论 -->
+  <el-row justify="center">
+    <el-col :sm="24" :md="18" :lg="12">
+      <p>评论:</p>
+      <comment-list :pictureGroupId="pictureGroupId"></comment-list>
+    </el-col>
+  </el-row>
+  
   <el-backtop /> 	<!--回到顶部-->
 </template>
 
 <script>
 import pictureApi from "@/api/PictureApi"
+import CommentList from "@/components/comment/CommentList.vue"
 
 export default {
   name: "PictureGroup",
+  components: {
+    CommentList
+  },
   data(){
     return {
       pictureGroupId: null,

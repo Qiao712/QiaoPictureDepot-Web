@@ -11,11 +11,6 @@ const service = axios.create({
   baseURL : "http://localhost:8080/api"
 })
 
-//设置request拦截器
-// service.interceptors.request.use(
-
-// )
-
 //设置response拦截器
 let handleErrorResponse = error => {
   //优先使用错误返回对象中的status

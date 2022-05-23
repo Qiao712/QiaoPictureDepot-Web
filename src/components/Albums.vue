@@ -46,7 +46,7 @@
 <script>
 import {Delete, Edit} from '@element-plus/icons-vue'
 import albumApi from '../api/AlbumApi'
-import {successMessage} from '../utils/Message'
+import {showSuccessMessage} from '../utils/Message'
 
 export default {
   name: 'Albums',
@@ -91,7 +91,7 @@ export default {
     deleteAlbum(albumId){
       albumApi.deleteAlbum(albumId).then(()=>{
         this.fetchData()
-        successMessage("删除成功")
+        showSuccessMessage("删除成功")
       })
     },
 
