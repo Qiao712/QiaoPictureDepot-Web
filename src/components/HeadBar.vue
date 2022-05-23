@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import MessageList from './MessageList.vue'
+import MessageList from './message/MessageList.vue'
 
 export default {
   name: "HeadBar",

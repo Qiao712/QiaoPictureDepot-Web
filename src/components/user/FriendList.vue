@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import friendApi from '../api/FriendApi'
+import friendApi from '../../api/FriendApi'
 import {Edit, Message} from '@element-plus/icons-vue'
 
 export default {

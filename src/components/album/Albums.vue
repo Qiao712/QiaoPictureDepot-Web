@@ -8,7 +8,7 @@
       <el-col v-for="album in albums" :key="album.id" :span="6" style="text-align: center">
         <router-link :to="{name: 'album', params: {albumId: album.id, pageNo: 1}}">  <!---->
           <el-image
-            :src="require(`../assets/albums.jpg`)"
+            :src="require(`../../assets/albums.jpg`)"
             fit="contain"
             :lazy="true"
           ></el-image>
@@ -45,8 +45,8 @@
 
 <script>
 import {Delete, Edit} from '@element-plus/icons-vue'
-import albumApi from '../api/AlbumApi'
-import {showSuccessMessage} from '../utils/Message'
+import albumApi from '@/api/AlbumApi'
+import {showSuccessMessage} from '@/utils/Message'
 
 export default {
   name: 'Albums',

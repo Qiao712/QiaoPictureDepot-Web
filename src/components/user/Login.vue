@@ -56,7 +56,7 @@ export default {
 <style>
 #login-frame{
   background-color: aquamarine;
-  background: url("../assets/background.jpg");
+  background: url("../../assets/background.jpg");
   background-position: center;
   width: 100vw;
   height: 100vh;

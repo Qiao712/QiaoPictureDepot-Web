@@ -6,7 +6,7 @@
 
 <script>
 import messageApi from '@/api/MessageApi'
-import Message from './message/Message.vue'
+import Message from './Message.vue'
 
 export default {
   name: "MessageList",
