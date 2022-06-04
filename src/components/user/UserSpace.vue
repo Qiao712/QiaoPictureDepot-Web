@@ -1,21 +1,95 @@
 <template>
-  <div style="margin: 20px">
-    <el-row>
-      <el-col :span="6" :offset="1" style="float: left">
-        <div class="block" style="float: left">
-          <el-avatar :size="100" :src="circleUrl"></el-avatar>
-        </div>
-        
-        <div style="float: left; margin: 10px">
-          <p>图片数量: </p>
-        </div>
-      </el-col>
-    </el-row>
+  <div class="info">
+    <!--用户信息-->
+    <div class="user-info">
+      <el-avatar class="big-avatar" shape="square" :size="80" :src="getAvatarUri(user.id)"/>
+      <div class="username-text">{{user.username}}</div>
+      <div style="width: 1rem"></div>
+
+      <!--角色信息-->
+      <div class="username-text">
+        <span v-if="user.rolename == 'ROLE_ADMIN'" style="margin: 5px; color: blue; front-size: 15px">管理员</span>
+        <span v-if="user.rolename == 'ROLE_NORMAL'" style="margin: 5px; color: grey; front-size: 15px">普通用户</span>
+        <span v-if="user.rolename == 'ROLE_VIP'" style="margin: 5px; color: pink; front-size: 15px">VIP</span>
+        <span v-if="user.rolename == 'ROLE_SVIP'" style="margin: 5px; color: red; front-size: 15px">SVIP</span>
+      </div>
+    </div>
+
+
+    <!--使用情况统计-->
+    <div class="usage-info">
+      <div>
+        储存空间: {{user.spaceUsage / 1024 / 1024}} MiB / {{spaceLimit}}
+      </div>
+      <div>
+        相册:
+      </div>
+      <div>
+        图片:
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import userApi from "@/api/UserApi"
+
 export default {
-  name: 'UserSpace'
+  name: 'UserSpace',
+  data(){
+    return{
+      user: {},
+    }
+  },
+
+  created(){
+    this.fetchData()
+  },
+
+  computed:{
+    spaceLimit(){
+      return this.user.pictureStorageLimit == -1 ? "∞ MiB" : (this.user.pictureStorageLimit / 1024 / 1024) + " MiB"
+    }
+  },
+
+  methods:{
+    fetchData(){
+      userApi.getCurrentUser().then(
+        (response)=>{
+          this.user = response.data
+        }
+      )
+    },
+
+    getAvatarUri(userId){
+      return userApi.getAvatarUri(userId)
+    }
+  }
 }
 </script>
+
+<style scoped>
+.info{
+  display: grid;
+  grid-template-columns: 50% 50%;
+
+  margin: 20px;
+}
+
+.user-info{
+	display: flex;
+	align-items: center;
+}
+
+.usage-info{
+  
+}
+
+.el-avatar{
+	margin: 10px;
+}
+
+.username-text{
+	font-size: 16px;
+}
+</style>

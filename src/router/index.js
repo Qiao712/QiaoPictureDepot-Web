@@ -15,9 +15,9 @@ import FriendList from '../components/user/FriendList.vue'
 let routes = [
     { path: '/', redirect: '/albums'},
 
-    { path: '/login', component: Login},
-    { path: '/register', component: Register},
-    { path: '/user', component: UserSpace},
+    { name: 'login', path: '/login', component: Login},
+    { name: 'register', path: '/register', component: Register},
+    { name: 'userspace', path: '/user', component: UserSpace},
     
     { name: 'albums', path: '/albums', component: Albums},
     { name: 'album', path: '/albums/:albumId', component: Album},

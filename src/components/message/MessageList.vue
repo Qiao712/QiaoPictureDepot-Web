@@ -19,16 +19,23 @@ export default {
       messages: []
     }
   },
-  created(){
-    messageApi.getMessages().then(
-      response=>{
-        this.messages = response.data
-      }
-    )
-  },
   methods:{
+    fetchData(){
+      messageApi.getMessages().then(
+        response=>{
+          this.messages = response.data
+        }
+      )
+    },
+
+    //显示开关
     showOrHide(){
-      this.isVisible = !(this.isVisible)
+      if(this.isVisible){
+        this.isVisible = false
+      }else{
+        this.fetchData()
+        this.isVisible = true
+      }
     }
   },
 }

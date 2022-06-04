@@ -9,15 +9,45 @@ export default{
     })
   },
 
-  register(username, password){
+  register(registerRequest){
     return request({
-      url: "/register",
+      url: "/users/register",
       method: "POST",
-      params:{
-        username,
-        password,
-        invitationCode: "123456"
-      }
+      data: registerRequest
     })
   },
+
+  uploadAvatar(imgFile){
+    return request({
+      url: "/users/avatar",
+      method: "POST",
+      data: imgFile
+    })
+  },
+
+  getAvatar(userId){
+    return request({
+      url: ["/users", userId, "avatar"].join('/'),
+      method: "GET"
+    })
+  },
+
+  getAvatarUri(userId){
+    //暂时硬编码
+    return ["http://localhost:8081/api/users", userId, "avatar"].join('/')
+  },
+
+  getUserBaseInfo(userId){
+    return request({
+      url: ["/users", userId].join('/'),
+      mehtod: "GET"
+    })
+  },
+
+  getCurrentUser(){
+    return request({
+      url: "/users/myself",
+      method: "GET"
+    })
+  }
 }

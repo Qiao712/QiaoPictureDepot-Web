@@ -2,7 +2,7 @@
   <div id="login-frame">
     <el-row justify="center" >
       <el-col :sm="24" :md="8" class="radius">
-        <h1 style="font-family: sans-serif">QiaoPictureDepot</h1>
+        <h1 style="font-family: sans-serif">PictureDepot</h1>
 
         <el-form :model="form" label-width="60px">
           <el-form-item label="用户名">
@@ -26,6 +26,7 @@
 
 <script>
 import userApi from "@/api/UserApi"
+import store from "@/store.js"
 
 export default {
   name: 'Login',
@@ -45,6 +46,9 @@ export default {
       form.append("remember-me", this.rememberMe)
       userApi.login(form).then(
         ()=>{
+          //拉取当前用户信息并储存
+          store.fetchCurrentUser()
+          
           this.$router.push({name: "albums", query: {pageNo: 1}})
         }
       )

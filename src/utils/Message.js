@@ -1,19 +1,19 @@
 import { ElMessage } from 'element-plus'
 
-export function showSuccessMessage(){
+export function showSuccessMessage(message){
   ElMessage({
     showClose: true,
     type: "success",
-    message: "操作成功",
+    message: message == undefined ? "操作成功" : message,
     duration: 1000
   })
 }
 
-export function showFailureMessage(){
+export function showFailureMessage(message){
   ElMessage({
     showClose: true,
     type: "failure",
-    message: "操作失败",
+    message: message == undefined ? "操作失败" : message,
     duration: 1000
   })
 }
