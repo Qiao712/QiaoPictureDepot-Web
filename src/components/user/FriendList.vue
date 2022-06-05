@@ -92,7 +92,6 @@ export default {
     fetchFriendList(){
       friendApi.getFriendList().then(response => {
         this.friendGroups = response.data
-        console.log(this.friendGroups)
       })
     },
 

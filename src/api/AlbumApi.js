@@ -41,5 +41,12 @@ export default{
       url: ["/albums", albumId].join("/"),
       method: "DELETE"
     })
+  },
+
+  getGrantedFriendGroups(albumId){
+    return request({
+      url: ["/albums", albumId, "granted-friend-groups"].join("/"),
+      method: "GET"
+    })
   }
 }

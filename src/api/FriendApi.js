@@ -8,7 +8,7 @@ export default{
     })
   },
   
-  getFriendGroupNames(){
+  getFriendGroups(){
     return request({
       url: "/friend-groups",
       method: "GET"         
