@@ -14,7 +14,11 @@
             :lazy="true"
           >
           </el-image>
-          <p> {{pictureGroup.title}} <el-tag>{{pictureGroup.pictureCount}}</el-tag></p>
+          <p> 
+            {{pictureGroup.title}} 
+            <el-tag>{{pictureGroup.pictureCount}}张</el-tag>
+            <el-tag>{{pictureGroup.likeCount}}👍</el-tag>
+          </p>
         </router-link>
 
         <!-- 删除按钮 -->

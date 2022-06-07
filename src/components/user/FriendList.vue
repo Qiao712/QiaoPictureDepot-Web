@@ -2,13 +2,17 @@
   <el-card class="box-card">
     <div v-for="friendGroup in friendGroups" :key="friendGroup.id" class="text item">
       <h4>{{friendGroup.name}}</h4>
+      
       <div v-for="friend, index in friendGroup.friendships" :key="index">
-        <div>
-          <p> > {{friend.friendUsername}} </p>
+        <div class="friend-item">
+          <!--头像-->
+          <img style="margin-right: 5px" :src="getAvatarUri(friend.friendUserId)" class="user-avatar">
+          
+          <p style="margin-right: 5px"> {{friend.friendUsername}} </p>
           <!-- 私信按钮 -->
-          <el-button size="small" @click="showFriendInfoDialog(friend, friendGroup.name)" circle>
+          <!-- <el-button size="small" @click="showFriendInfoDialog(friend, friendGroup.name)" circle>
             <message style="width: 100%"/>
-          </el-button>
+          </el-button> -->
           <!-- 编辑好友按钮 -->
           <el-button size="small" @click="showFriendInfoDialog(friend, friendGroup.name)" circle>
             <edit style="width: 100%"/>
@@ -58,12 +62,15 @@
 
 <script>
 import friendApi from '../../api/FriendApi'
-import {Edit, Message} from '@element-plus/icons-vue'
+// import {Edit, Message} from '@element-plus/icons-vue'
+import {Edit} from '@element-plus/icons-vue'
+import userApi from "@/api/UserApi"
 
 export default {
   name: "FriendList",
   components:{
-    Edit, Message
+    Edit,
+    // Message
   },
   data(){
     return {
@@ -117,10 +124,24 @@ export default {
         friendApi.updateFriend(this.selectedFriend.friendUserId, this.selectedFriendGroupName)
       }
     },
+
+    getAvatarUri(userId){
+      return userApi.getAvatarUri(userId)
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.user-avatar{
+  height: 32px;
+  width: 32px;
+  border-radius: 3px;
+}
 
+.friend-item{
+  display: flex;
+  justify-content:flex-start;
+  align-items: center;
+}
 </style>

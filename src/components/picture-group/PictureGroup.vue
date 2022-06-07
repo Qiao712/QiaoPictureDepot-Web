@@ -1,4 +1,13 @@
 <template>
+  <!--标题-->
+  <el-row justify="center">
+    <el-col :sm="24" :md="18" :lg="12">
+      <div class="title">
+        {{pictureGroup.title}}
+      </div>
+    </el-col>
+  </el-row>
+
   <el-row justify="center" v-for="picture in pictures" :key="picture.id">
     <el-col :sm="24" :md="18" :lg="12" style="text-align: center">
       <el-image 
@@ -7,6 +16,20 @@
         :lazy="true"
       >
       </el-image>
+    </el-col>
+  </el-row>
+
+  <!--信息-->
+  <el-row justify="center">
+    <el-col :sm="24" :md="18" :lg="12">
+      <div class="picture-group-info">
+        <span>{{pictureGroup.title}}</span>
+        <div style="width: 32px"></div>
+        <span style="color: grey">创建于: {{pictureGroup.createTime}}</span>
+        <div style="width: 32px"></div>
+        <el-button v-if="!pictureGroup.liked" @click="like()">点赞 {{pictureGroup.likeCount}}</el-button>
+        <el-button v-if="pictureGroup.liked" @click="undoLike()">已赞 {{pictureGroup.likeCount}}</el-button>
+      </div>
     </el-col>
   </el-row>
 
@@ -33,6 +56,7 @@ export default {
   data(){
     return {
       pictureGroupId: null,
+      pictureGroup: {},
       pictures: []
     }
   }, 
@@ -51,6 +75,12 @@ export default {
       this.pictureGroupId = Number(this.$route.params.pictureGroupId)
       if(isNaN(this.pictureGroupId)) return
 
+      pictureApi.getPictureGroup(this.pictureGroupId).then(
+        response=>{
+          this.pictureGroup = response.data
+        }
+      )
+
       pictureApi.getPicturesInfoByGroup(this.pictureGroupId).then(
         response=>{
           this.pictures = response.data
@@ -60,11 +90,39 @@ export default {
 
     getPictureUrl(pictureId){
       return ["/api/picture-groups", this.pictureGroupId, "pictures", pictureId].join('/')
+    },
+
+    like(){
+      pictureApi.likePictureGroup(this.pictureGroupId).then(
+        ()=>{
+          this.pictureGroup.liked = true
+          this.pictureGroup.likeCount++
+        }
+      )
+    },
+
+    undoLike(){
+      pictureApi.undoLikePictureGroup(this.pictureGroupId).then(
+        ()=>{
+          this.pictureGroup.liked = false
+          this.pictureGroup.likeCount--
+        }
+      )
     }
   }
 }
 </script>
 
 <style scoped>
+.title{
+  font-size: 20px;
+  margin: 5px;
+}
 
+.picture-group-info{
+  font-size: 18px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+}
 </style>

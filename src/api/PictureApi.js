@@ -51,5 +51,19 @@ export default{
       method: "PUT",
       data: formData
     })
+  },
+
+  likePictureGroup(pictureGroupId){
+    return request({
+      url: ["/picture-groups", pictureGroupId, "like"].join('/'),
+      method: "POST"
+    })
+  },
+
+  undoLikePictureGroup(pictureGroupId){
+    return request({
+      url: ["/picture-groups", pictureGroupId, "undo-like"].join('/'),
+      method: "POST"
+    })
   }
 }
