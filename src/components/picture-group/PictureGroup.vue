@@ -5,7 +5,7 @@
         :src="getPictureUrl(picture.id)"
         fit="contain"
         :lazy="true"
-      > 
+      >
       </el-image>
     </el-col>
   </el-row>

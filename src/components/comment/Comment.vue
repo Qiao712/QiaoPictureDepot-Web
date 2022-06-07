@@ -1,7 +1,7 @@
 <template>
   <div class="reply-view">
     <div class="user-bar">
-      <img class="big-avatar" :src="0"/>
+      <img class="avatar" :src="getAvatarUri(comment.authorId)"/>
       <p class="small-text">{{comment.authorUser.username}}</p>
     </div>
 
@@ -15,8 +15,18 @@
       <div class="bottom-bar">
         <span class="small-text">{{comment.updateTime}}</span>
         <span class="small-text" style="color: blue">举报</span>
-        <span class="small-text" style="color: blue" @click="replyDialogVisible = true">回复</span>
-        <!-- <span class="small-text" style="color: blue" @click="deleteComment">删除</span> -->
+        <span class="small-text" style="color: blue" @click="replyDialogVisible = true">
+          回复
+        </span>
+        <span 
+          class="small-text" style="color: blue" 
+          @click="deleteComment(comment.id)"
+          v-if="currentUser.id == comment.authorId"
+        >
+          删除
+        </span>
+        <span v-if="!liked" class="small-text" style="color: blue" @click="like()">点赞: {{likeCount}}</span>
+        <span v-if="liked" class="small-text" style="color: pink" @click="undoLike()">已赞: {{likeCount}}</span>
       </div>
 
       <!--子回复-->
@@ -48,6 +58,8 @@
 <script>
 import SubComment from "./SubComment.vue"
 import commentApi from "@/api/CommentApi"
+import store from "@/store"
+import userApi from "@/api/UserApi"
 
 export default {
   name: "CommentView",
@@ -67,10 +79,18 @@ export default {
       //回复
       replyDialogVisible: false,
       replyContent: "",
+
+      //否点赞、点赞数状态
+      liked: false,
+      likeCount: 0,
+
+      currentUser: store.state.currentUser
     }
   },
 
   created(){
+    this.liked = this.comment.liked
+    this.likeCount = this.comment.likeCount
     this.fetchData()
   },
 
@@ -104,53 +124,43 @@ export default {
       )
     },
 
-    deleteComment(){
-      
+    deleteComment(commentId){
+      commentApi.deleteComment(commentId).then(
+        this.$parent.fetchData()
+      )
     },
 
     handlePageChange(pageNo){
       this.pageNo = pageNo
       this.fetchData()
+    },
+
+    getAvatarUri(userId){
+      return userApi.getAvatarUri(userId)
+    },
+
+    like(){
+      commentApi.likeComment(this.comment.pictureGroupId, this.comment.id).then(
+        ()=>{
+          this.liked = true
+          this.likeCount++
+        }
+      )
+    },
+
+    undoLike(){
+      commentApi.undoLikeComment(this.comment.pictureGroupId, this.comment.id).then(
+        ()=>{
+          this.liked = false
+          this.likeCount--
+        }
+      )
     }
   }
 }
 </script>
 
 <style scoped>
-/* @media (max-device-width: 50rem) {
-  .reply-view{
-    display: grid;
-    grid-template-rows: 10% 90%;
-  }
-
-  .big-avatar{
-    margin: 0.5rem;
-    height: 4rem;
-    width: 4rem;
-  }
-
-  .user-bar{
-    display: flex;
-    align-items: center;
-  }
-}
-
-@media (min-device-width: 50rem){
-  .reply-view{
-    display: grid;
-    grid-template-columns: 10% 90%;
-  }
-
-  .big-avatar{
-    margin-top: 0.5rem;
-    width: 90%;
-  }
-
-  .user-bar{
-    text-align: center;
-  }
-} */
-
 .reply-content{
   color: var(--el-text-color-regular);
   font-size: 16px;
@@ -164,6 +174,12 @@ export default {
 .small-text{
   font-size: 15px;
   margin: 10px;
+}
+
+.avatar{
+  margin: 5px;
+  height: 32px;
+  width: 32px;
 }
 
 .bottom-bar{

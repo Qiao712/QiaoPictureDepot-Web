@@ -29,5 +29,26 @@ export default{
       method: "POST",
       data: commentAdd
     })
+  },
+
+  deleteComment(commentId){
+    return request({
+      url: "/picture-groups/comments/" + commentId,
+      method: "DELETE"
+    })
+  },
+
+  likeComment(pictureGroupId, commentId){
+    return request({
+      url: ["/picture-groups", pictureGroupId, "comments", commentId, "like"].join("/"),
+      method: "POST"
+    })
+  },
+
+  undoLikeComment(pictureGroupId, commentId){
+    return request({
+      url: ["/picture-groups", pictureGroupId, "comments", commentId, "undo-like"].join("/"),
+      method: "POST"
+    })
   }
 }

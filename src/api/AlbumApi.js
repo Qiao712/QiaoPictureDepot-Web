@@ -1,15 +1,11 @@
 import request from '../utils/request'
 
 export default{
-  getAlbums(pageNo, pageSize, user){
+  getAlbums(albumQuery){
     return request({
       url: "/albums",
       method: "GET",
-      params: {
-        pageNo,
-        pageSize,
-        user
-      }
+      params: albumQuery
     })
   },
 

@@ -83,8 +83,15 @@ export default {
       this.pageNo = isNaN(this.pageNo) ? 1 : this.pageNo
       if(isNaN(this.albumId)) return
 
+      let pictureGroupQuery = {
+        albumId: this.albumId,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        orderBy: "createTime",
+        desc: false
+      }
 
-      pictureApi.getPictureGroups(this.albumId, this.pageNo, this.pageSize).then(
+      pictureApi.getPictureGroups(pictureGroupQuery).then(
         (response)=>{
           this.total = response.data.total
           this.pictureGroups = response.data.list

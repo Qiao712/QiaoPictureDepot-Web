@@ -15,14 +15,11 @@ export default{
     })
   },
 
-  getPictureGroups(albumId, pageNo, pageSize){
+  getPictureGroups(pictureGroupQuery){
     return request({
-      url: ["/albums", albumId, "picture-groups"].join("/"),
+      url: "/picture-groups",
       method: "GET",
-      params: {
-        pageNo,
-        pageSize
-      }
+      params: pictureGroupQuery
     })
   },
 

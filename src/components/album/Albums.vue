@@ -58,6 +58,9 @@ export default {
       pageNo: 1,
       pageSize: 12,
       total: 0,
+      orderBy: "createTime",
+      desc: false,
+
       albums: [],
     }
   },
@@ -78,7 +81,14 @@ export default {
       this.pageNo = Number(this.$route.query.pageNo)
       if(isNaN(this.pageNo)) return
 
-      albumApi.getAlbums(this.pageNo, this.pageSize).then(response=>{
+      let albumQuery = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        orderBy: this.orderBy,
+        desc: this.desc
+      }
+
+      albumApi.getAlbums(albumQuery).then(response=>{
         this.albums = response.data.list
         this.total = response.data.total
       })
