@@ -6,18 +6,22 @@
           <el-input placeholder="请输入标题..." name="username" v-model="title"></el-input>
         </el-form-item>
 
+        <el-form-item label="描述">
+          <el-input placeholder="请输入描述信息..." name="description" v-model="description"></el-input>
+        </el-form-item>
+
         <el-form-item label="上传图片">
           <picture-group-uploader
               :pictureGroupId="pictureGroupId"
               :albumId="albumId"
               :title="title"
+              :description="description"
               :isUpdate="true">
           </picture-group-uploader>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="upload">完成创建</el-button>
-          <el-checkbox name="type" label="是否公开" style="margin-left: 50px"></el-checkbox>
+          <el-button type="primary" @click="upload">完成</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -38,6 +42,7 @@ export default {
       pictureGroupId: null,
       title: "",
       albumId: null,
+      description: ""
     }
   },
   created() {
@@ -61,6 +66,7 @@ export default {
           this.albumId = pictureGroup.albumId
           this.pictureGroupId = pictureGroup.id
           this.title = pictureGroup.title
+          this.description = pictureGroup.description
         }
       )
     },

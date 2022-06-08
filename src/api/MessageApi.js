@@ -1,10 +1,14 @@
 import request from '../utils/request'
 
 export default{
-  getMessages(){
+  getMessages(pageNo, pageSize){
     return request({
       url: "messages",
-      method: "GET"
+      method: "GET",
+      params: {
+        pageNo,
+        pageSize
+      }
     })
   },
 

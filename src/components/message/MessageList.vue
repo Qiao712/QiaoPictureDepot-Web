@@ -1,6 +1,7 @@
 <template>
-  <el-dialog v-model="isVisible" title="系统通知" v-infinite-scroll="load" class="infinite-list" style="overflow: auto; height: 100px">
+  <el-dialog v-model="isVisible" title="通知" v-infinite-scroll="" class="infinite-list" style="overflow: auto; height: 100px">
     <message v-for="(message,index) in messages" :key="index" :message="message"></message>
+    <el-pagination background layout="prev, pager, next" :current-page="pageNo" @current-change="handlePageChange" :page-size="pageSize" :total="total"></el-pagination>
   </el-dialog>
 </template>
 
@@ -16,14 +17,20 @@ export default {
   data(){
     return {
       isVisible: false,
+      pageNo: 1,
+      pageSize: 10,
       messages: []
     }
   },
+  created(){
+    this.fetchData()
+  },
   methods:{
     fetchData(){
-      messageApi.getMessages().then(
+      messageApi.getMessages(this.pageNo, this.pageSize).then(
         response=>{
-          this.messages = response.data
+          this.messages = response.data.list
+          this.total = response.data.total
         }
       )
     },
@@ -36,7 +43,11 @@ export default {
         this.fetchData()
         this.isVisible = true
       }
-    }
+    },
+
+    handlePageChange(pageNo){
+      this.pageNo = pageNo
+    },
   },
 }
 </script>

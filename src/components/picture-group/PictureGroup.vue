@@ -22,6 +22,9 @@
   <!--信息-->
   <el-row justify="center">
     <el-col :sm="24" :md="18" :lg="12">
+      <div>
+        {{pictureGroup.description}}
+      </div>
       <div class="picture-group-info">
         <span>{{pictureGroup.title}}</span>
         <div style="width: 32px"></div>

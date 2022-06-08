@@ -11,15 +11,13 @@
         <p style="margin-left: 10px">PictureDepot</p>
         <el-menu-item index="albums">相册</el-menu-item>
         <el-menu-item index="friends">好友</el-menu-item>
-        <el-menu-item index="message" @click="showMessage">消息</el-menu-item>
       </el-menu>
     </div>
 
-    <!--用户信息头像-->
+    <!--右边栏 用户信息头像-->
     <div class="right" @click="$router.push({name: 'userspace'})">
-      <img v-if="store.currentUser != null" :src="getAvatarUri(store.currentUser.id)" class="user-avatar">
-
       <div class="user-info" v-if="store.currentUser != null">
+        <img v-if="store.currentUser != null" :src="getAvatarUri(store.currentUser.id)" class="user-avatar">
         <span style="margin: 5px">{{store.currentUser.username}}</span>
 
         <!--角色信息-->
@@ -42,7 +40,7 @@ import store from "@/store.js"
 export default {
   name: "HeadBar",
   components:{
-    MessageList
+    MessageList, 
   },
   data(){
     return {

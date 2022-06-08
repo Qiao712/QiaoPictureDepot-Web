@@ -6,10 +6,15 @@
           <el-input placeholder="请输入标题..." name="title" v-model="title"></el-input>
         </el-form-item>
 
+        <el-form-item label="描述">
+          <el-input placeholder="请输入描述信息..." name="description" v-model="description"></el-input>
+        </el-form-item>
+
         <el-form-item label="上传图片">
           <picture-group-uploader
             :albumId="albumId"
             :title="title"
+            :description="description"
             :isUpdate="false">
           </picture-group-uploader>
         </el-form-item>
@@ -35,6 +40,7 @@ export default {
       pictureGroupId: null,
       title: "",
       albumId: null,
+      description: ""
     }
   },
   created() {

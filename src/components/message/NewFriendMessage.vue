@@ -12,11 +12,11 @@
   </el-dialog>
 
   <el-dialog v-model="acceptDialogVisible" title="同意好友申请" style="align-text: center">
-      <p>好友分组:</p>
-      <el-input v-model="friendGroupName"/>
-      <p/>
-      <el-button @click="accept">确定</el-button>
-      <el-button @click="acceptDialogVisible=false">取消</el-button>
+    <p>好友分组:</p>
+    <el-input v-model="friendGroupName"/>
+    <p/>
+    <el-button @click="accept">确定</el-button>
+    <el-button @click="acceptDialogVisible=false">取消</el-button>
   </el-dialog>
 </template>
 
@@ -38,13 +38,20 @@ export default {
   methods:{
     accept(){
       friendApi.acceptNewFriend(this.message.id, this.friendGroupName).then(
-        this.acceptDialogVisible = false
+        ()=>{
+          this.acceptDialogVisible = false
+          this.newFriendDialogVisible = false
+          this.$parent.fetchData()
+        }
       )
     },
     
     rejust(){
       friendApi.rejectNewFriend(this.message.id).then(
-        this.newFriendDialogVisible = false
+        ()=>{
+          this.newFriendDialogVisible = false
+          this.$parent.fetchData()
+        }
       )
     },
   }

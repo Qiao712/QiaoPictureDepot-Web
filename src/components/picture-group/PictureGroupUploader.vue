@@ -70,6 +70,7 @@ export default {
     albumId: Number,
     //指定行为是 修改/新建
     isUpdate: Boolean,
+    description: String
   },
   components: {
     draggable,
@@ -181,6 +182,7 @@ export default {
           title: this.title,
           albumId: this.albumId,
           pictureGroupId: this.pictureGroupId,
+          description: this.description,
 
           picturesToDelete: this.picturesToDelete,
           idSequence: idSequence,
@@ -195,7 +197,8 @@ export default {
         let pictureGroup = {
           pictureGroupId: this.pictureGroupId,
           title: this.title,
-          albumId: this.albumId
+          albumId: this.albumId,
+          description: this.description
         }
 
         //新建

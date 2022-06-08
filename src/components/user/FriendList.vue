@@ -115,8 +115,14 @@ export default {
     },
 
     deleteFriend(){
-      if(this.selectedFriend != null && this.selectedFriend.friendUserId != null)
-        friendApi.deleteFriend(this.selectedFriend.friendUserId)
+      if(this.selectedFriend != null && this.selectedFriend.friendUserId != null){
+        friendApi.deleteFriend(this.selectedFriend.friendUserId).then(
+          ()=>{
+            this.fetchFriendList()
+            this.friendInfoDialog = false
+          }
+        )
+      }
     },
 
     updateFriend(){
