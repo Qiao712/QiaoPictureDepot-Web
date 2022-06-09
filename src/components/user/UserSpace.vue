@@ -22,10 +22,13 @@
         储存空间: {{user.spaceUsage / 1024 / 1024}} MiB / {{spaceLimit}}
       </div>
       <div>
-        相册:
+        相册数量: {{user.albumCount}} / {{albumNumLimit}}
       </div>
       <div>
-        图片:
+        图组数量: {{user.pictureGroupCount}}
+      </div>
+      <div>
+        图片数量: {{user.pictureCount}}
       </div>
     </div>
   </div>
@@ -49,6 +52,10 @@ export default {
   computed:{
     spaceLimit(){
       return this.user.pictureStorageLimit == -1 ? "∞ MiB" : (this.user.pictureStorageLimit / 1024 / 1024) + " MiB"
+    },
+
+    albumNumLimit(){
+      return this.user.albumNumLimit == -1 ? "∞" : this.user.albumNumLimit
     }
   },
 

@@ -112,7 +112,9 @@ export default {
       }
 
       albumApi.updateAlbum(album).then(
-        this.$router.back()
+        ()=>{
+          this.$router.back()
+        }
       )
     },
   }

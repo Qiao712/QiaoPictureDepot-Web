@@ -1,7 +1,16 @@
 <template>
   <div style="margin: 10px">
     <el-row justify="start">
-      <el-button @click="$router.push({name: 'createAlbum'})">新建相册</el-button>
+      <!--浏览自己的相册列表时-->
+      <div v-if="ownerUsername == null">
+        <el-button @click="$router.push({name: 'createAlbum'})">新建相册</el-button>
+      </div>
+
+      <!--浏览其他用户相册列表时-->
+      <div v-if="ownerUsername != null">
+        <span style="color: blue">{{ownerUsername}}</span>
+        <span>的相册</span>
+      </div>
     </el-row>
 
     <el-row :gutter="5">
@@ -15,8 +24,10 @@
           <p>{{album.name}}</p>
         </router-link>
 
+        <!--浏览自己的相册时-->
         <!-- 删除按钮 -->
         <el-popconfirm
+          v-if="ownerUsername == null"
           confirm-button-text="确认"
           cancel-button-text="取消"
           icon-color="red"
@@ -31,7 +42,12 @@
         </el-popconfirm>
 
         <!--编辑按钮-->
-        <el-button size="small" @click="editAlbum(album.id)" circle>
+        <el-button 
+          size="small" 
+          v-if="ownerUsername == null"
+          @click="editAlbum(album.id)"
+          circle
+        >
           <edit style="width: 100%"/>
         </el-button>
       </el-col>
@@ -55,6 +71,7 @@ export default {
   },
     data(){
     return {
+      ownerUsername: null,  //拥有者用户名， 为空表示当前用户
       pageNo: 1,
       pageSize: 12,
       total: 0,
@@ -77,11 +94,14 @@ export default {
   methods: {
     //拉取album信息
     fetchData(){
+      console.log("get albums")
       //注意类型：el-nagination的current-page必须接收number
       this.pageNo = Number(this.$route.query.pageNo)
+      this.ownerUsername = this.$route.query.username
       if(isNaN(this.pageNo)) return
 
       let albumQuery = {
+        ownerUsername: this.ownerUsername,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         orderBy: this.orderBy,

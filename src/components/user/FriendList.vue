@@ -9,10 +9,10 @@
           <img style="margin-right: 5px" :src="getAvatarUri(friend.friendUserId)" class="user-avatar">
           
           <p style="margin-right: 5px"> {{friend.friendUsername}} </p>
-          <!-- 私信按钮 -->
-          <!-- <el-button size="small" @click="showFriendInfoDialog(friend, friendGroup.name)" circle>
-            <message style="width: 100%"/>
-          </el-button> -->
+          <!-- 浏览该用户相册 -->
+          <el-button size="small" @click="$router.push({name: 'albums', query: {pageNo: 1, username: friend.friendUsername}})" circle>
+            <grid style="width: 100%"/>
+          </el-button>
           <!-- 编辑好友按钮 -->
           <el-button size="small" @click="showFriendInfoDialog(friend, friendGroup.name)" circle>
             <edit style="width: 100%"/>
@@ -62,15 +62,14 @@
 
 <script>
 import friendApi from '../../api/FriendApi'
-// import {Edit, Message} from '@element-plus/icons-vue'
-import {Edit} from '@element-plus/icons-vue'
+import {Edit, Grid} from '@element-plus/icons-vue'
 import userApi from "@/api/UserApi"
 
 export default {
   name: "FriendList",
   components:{
     Edit,
-    // Message
+    Grid
   },
   data(){
     return {

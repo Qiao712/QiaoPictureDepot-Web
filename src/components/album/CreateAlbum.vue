@@ -77,7 +77,9 @@ export default {
       }
 
       albumApi.addAlbum(album).then(
-        this.$router.back()
+        ()=>{
+          this.$router.back()
+        }
       )
     },
   }

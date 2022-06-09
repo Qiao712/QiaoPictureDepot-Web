@@ -205,7 +205,9 @@ export default {
         formData.set("picture-group", JSON.stringify(pictureGroup))
 
         pictureApi.addPictureGroup(formData).then(
-          this.$router.back()
+          ()=>{
+            this.$router.back()
+          }
         )
       }
     },
