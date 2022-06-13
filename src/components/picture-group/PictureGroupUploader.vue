@@ -191,7 +191,9 @@ export default {
         formData.set("picture-group", JSON.stringify(pictureGroupUpdateRequest))
 
         pictureApi.updatePictureGroup(formData).then(
-          this.$router.back()
+          ()=>{
+            this.$router.back()
+          }
         )
       }else{
         let pictureGroup = {

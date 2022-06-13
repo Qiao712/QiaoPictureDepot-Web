@@ -2,7 +2,7 @@
   <div id="login-frame">
     <el-row justify="center" >
       <el-col :sm="24" :md="8" class="radius">
-        <h1 style="font-family: sans-serif">QiaoPictureDepot</h1>
+        <h1 style="font-family: sans-serif">PictureDepot</h1>
 
         <el-form :model="form" label-width="70px">
           <el-form-item label="用户名">
